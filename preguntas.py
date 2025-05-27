@@ -1,92 +1,63 @@
+import streamlit as st
+
+st.set_page_config(page_title="Quiz de Python", layout="centered")
+st.title("🐍 Quiz de Sintaxis de Python")
+st.subheader("Responde las siguientes preguntas:")
+
+# Preguntas y respuestas correctas
 preguntas = [
     {
-        "pregunta": "¿Qué hace un bucle while en Python?",
-        "opciones": [
-            "Ejecuta un bloque mientras la condición sea verdadera.",
-            "Ejecuta el bloque una vez.",
-            "Ejecuta el bloque cuando la condición sea falsa."
-        ],
-        "respuesta": "Ejecuta un bloque mientras la condición sea verdadera."
+        "pregunta": "¿Cuál es la sintaxis correcta para definir una función en Python?",
+        "opciones": ["func myFunction():", "def myFunction():", "function myFunction():"],
+        "respuesta": "def myFunction():"
     },
     {
-        "pregunta": "¿Cuál es la sintaxis correcta de un bucle for en Python?",
-        "opciones": [
-            "for i to 5:",
-            "for i in range(5):",
-            "for (i = 0; i < 5; i++):"
-        ],
-        "respuesta": "for i in range(5):"
+        "pregunta": "¿Cómo se accede al tercer elemento de una lista llamada `mi_lista`?",
+        "opciones": ["mi_lista[2]", "mi_lista(3)", "mi_lista[3]"],
+        "respuesta": "mi_lista[2]"
     },
     {
-        "pregunta": "¿Qué hace la instrucción if?",
-        "opciones": [
-            "Repite código.",
-            "Evalúa una condición.",
-            "Imprime valores."
-        ],
-        "respuesta": "Evalúa una condición."
+        "pregunta": "¿Cuál es la estructura correcta de un bucle `for` en Python?",
+        "opciones": ["for x in range(5)", "foreach x in range(5)", "for x = 1 to 5"],
+        "respuesta": "for x in range(5)"
     },
     {
-        "pregunta": "¿Qué palabra clave se usa para detener un bucle?",
-        "opciones": [
-            "stop",
-            "halt",
-            "break"
-        ],
-        "respuesta": "break"
+        "pregunta": "¿Qué hace la instrucción `if`?",
+        "opciones": ["Ejecuta código si una condición es verdadera", "Repite una instrucción", "Define una función"],
+        "respuesta": "Ejecuta código si una condición es verdadera"
     },
     {
-        "pregunta": "¿Qué valor considera `if 0:` como verdadero?",
-        "opciones": [
-            "Verdadero",
-            "Falso",
-            "Depende del contexto"
-        ],
-        "respuesta": "Falso"
-    },
-    {
-        "pregunta": "¿Cómo se ejecuta un bucle while infinito?",
-        "opciones": [
-            "while(1):",
-            "while True:",
-            "while infinito:"
-        ],
-        "respuesta": "while True:"
-    },
-    {
-        "pregunta": "¿Qué hace la instrucción `continue`?",
-        "opciones": [
-            "Termina el programa.",
-            "Sale del bucle.",
-            "Salta a la siguiente iteración."
-        ],
-        "respuesta": "Salta a la siguiente iteración."
-    },
-    {
-        "pregunta": "¿Qué imprime este código: `for i in range(3): print(i)`?",
-        "opciones": [
-            "1 2 3",
-            "0 1 2",
-            "0 1 2 3"
-        ],
-        "respuesta": "0 1 2"
-    },
-    {
-        "pregunta": "¿Cuál es la estructura básica de un `if`?",
-        "opciones": [
-            "if condición: bloque",
-            "if (condición) { bloque }",
-            "if condición entonces bloque"
-        ],
-        "respuesta": "if condición: bloque"
-    },
-    {
-        "pregunta": "¿Cuál es el resultado de `x = 5; if x == 5:`?",
-        "opciones": [
-            "El bloque se ejecuta.",
-            "Error de sintaxis.",
-            "No se ejecuta."
-        ],
-        "respuesta": "El bloque se ejecuta."
+        "pregunta": "¿Cuál de las siguientes líneas añade un elemento a una lista?",
+        "opciones": ["lista.add('hola')", "lista.append('hola')", "lista.insert('hola')"],
+        "respuesta": "lista.append('hola')"
     }
 ]
+
+respuestas_usuario = []
+
+# Mostrar preguntas
+for i, item in enumerate(preguntas):
+    st.markdown(f"**{i + 1}. {item['pregunta']}**")
+    respuesta = st.radio(
+        label="Selecciona una opción:",
+        options=item["opciones"],
+        key=f"pregunta_{i}"
+    )
+    respuestas_usuario.append(respuesta)
+
+# Botón para verificar respuestas
+if st.button("Verificar mis respuestas"):
+    puntaje = 0
+    for i, respuesta in enumerate(respuestas_usuario):
+        if respuesta == preguntas[i]["respuesta"]:
+            puntaje += 1
+
+    st.markdown(f"### ✅ Obtuviste **{puntaje} de 5** respuestas correctas.")
+
+    if puntaje == 5:
+        st.balloons()
+        st.success("🎉 ¡Excelente! Respondiste todo correctamente.")
+    elif puntaje >= 3:
+        st.info("👍 Buen trabajo. ¡Sigue practicando!")
+    else:
+        st.warning("📘 Sigue repasando. Puedes hacerlo mejor.")
